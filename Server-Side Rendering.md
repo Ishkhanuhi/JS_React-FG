@@ -69,3 +69,20 @@ If you have ever visited a WordPress site, you have seen how slow they can be.
 - when SEO is not your priority
 - if your site has rich interactions  
 - if you are building a web application
+
+### A few more disadvantages about SSR
+- Complex caching: configuring your cache is usually more complex on SSR sites than CSR sites.
+- Server cost: SSR often needs a bigger and more powerful server to provide high-performance than CSR.
+- Higher latency: SSR sites tend to get a high latency if you get lots of traffic at the same time,   
+  which delays/slows down the browsing experience for everyone.  
+  CSR doesn’t suffer from this nearly as much. Latency is also known as ping rate which is usually measured in ms (milliseconds).
+
+## Universal Rendering
+Fortunately, there’s a method called universal rendering, where you can get the best of both worlds,  
+the quick and seamless app-like page transitions of client-side rendering + the SEO and blazing fast first-paint of server-side rendering.  
+
+In modern times (2020+) the ideal solution for most use cases is to combine CSR and SSR,  
+along with some type of SSG, as this gives you maximum speed, strong security, great SEO, lower server costs, and the best user experience possible.  
+
+
+
