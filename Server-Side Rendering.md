@@ -65,6 +65,15 @@ If you have ever visited a WordPress site, you have seen how slow they can be.
 - if your website needs a faster initial loading.  
 - if the content of your website doesn't need much user interaction.  
 
+Google indexes JavaScript-based web pages using a two-wave indexing system.  
+When Googlebot first encounters your website, it crawls your pages and extracts all of their `HTML`, `CSS` and links, typically within a few hours..
+Google then puts the JavaScript content in a queue, rendering it when it has the resources.  
+Sometimes that takes days or weeks. During that time, your web pages are not being indexed and, therefore, not being found on Google.  
+That’s a lot of traffic you’re missing out on. 
+
+What’s worse, if your JavaScript pages aren’t able to be crawled and indexed properly, Google reads them as a blank screen and ranks it accordingly,  
+which can be catastrophic to your website’s SEO health.
+
 ### Use CSR
 - when SEO is not your priority
 - if your site has rich interactions  
@@ -85,4 +94,38 @@ In modern times (2020+) the ideal solution for most use cases is to combine CSR 
 along with some type of SSG, as this gives you maximum speed, strong security, great SEO, lower server costs, and the best user experience possible.  
 
 
+## There’s a Better Solution Still: Prerendering
+prerender.io scrapes your website on a regular basis using the latest Chrome.  
+Then it stores all the rendered HTML pages into a database and gives you an API for that so you can access the rendered HTML for every URL of your website.
+
+The only thing you need to do is to add a proxy that checks the user agent.  
+If the user agent is a search engine or some kind of crawler (Facebook, Linkedin, etc.) you just send an API call,  
+get the rendered HTML from prerender.io, and return it to the crawler.  
+If the user agent is not a crawler you can just return the `index.html` of your SPA so the JS would kick in.
+
+```
+const express = require('express');
+const secure = require('express-force-https');
+const prerender = require('prerender-node'); 
+
+// Load from env vars
+const port = process.env.PORT;
+const indexHtml = process.env.INDEX_HTML;
+const prerenderToken = process.env.PRERENDER_TOKEN;
+
+const app = express();
+
+// Use secure middleware to redirect to https 
+app.use(secure);
+
+// Use prerender io middleware 
+app.use(prerender.set('prerenderToken', prerenderToken));
+
+// Serve index.html on every url.
+app.get('*', (req, res) => {
+  res.send(indexHtml);
+});
+
+app.listen(port);
+```
 
